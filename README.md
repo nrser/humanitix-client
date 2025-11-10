@@ -7,7 +7,7 @@ First, create a client:
 ```python
 from humanitix_client import Client
 
-client = Client(base_url="https://api.example.com")
+client = Client(base_url="https://api.humanitix.com/")
 ```
 
 If the endpoints you're going to hit require authentication, use `AuthenticatedClient` instead:
@@ -15,7 +15,12 @@ If the endpoints you're going to hit require authentication, use `AuthenticatedC
 ```python
 from humanitix_client import AuthenticatedClient
 
-client = AuthenticatedClient(base_url="https://api.example.com", token="SuperSecretToken")
+client = AuthenticatedClient(
+    base_url="https://api.humanitix.com/",
+    token="SuperSecretToken",
+    auth_header_name="X-Api-Key",
+    prefix="",
+)
 ```
 
 Now call your endpoint and use your models:
