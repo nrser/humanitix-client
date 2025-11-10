@@ -1,7 +1,4 @@
-# Generate with:
-# 
-#   uvx --from openapi-python-client openapi-python-client generate --url https://api.humanitix.com/v1/documentation/json --config ./openapi-python-client.yaml --output-path . --overwrite
-# 
+# Generation instructions in `DEVELOPERS.md`
 
 # Override the names; the default name is something like `humanitix-public-api`,
 # this is maybe a bit more clear and concise.
