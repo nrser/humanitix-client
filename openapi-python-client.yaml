@@ -1,0 +1,14 @@
+# Generate with:
+# 
+#   uvx --from openapi-python-client openapi-python-client generate --url https://api.humanitix.com/v1/documentation/json --config ./openapi-python-client.yaml --output-path . --overwrite
+# 
+
+# Override the names; the default name is something like `humanitix-public-api`,
+# this is maybe a bit more clear and concise.
+project_name_override: humanitix-client
+package_name_override: humanitix_client
+
+# Use simpler model names that may conflict in edge cases.
+# 
+# SEE https://github.com/openapi-generators/openapi-python-client?tab=readme-ov-file#use_path_prefixes_for_title_model_names
+use_path_prefixes_for_title_model_names: true
