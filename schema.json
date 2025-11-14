@@ -2800,7 +2800,7 @@
       "SalesChannel": {
         "type": "string",
         "description": "The channel through which the order or ticket was created, via an online sale or manual order.",
-        "enum": ["online", "manual"]
+        "enum": ["online", "manual", "boxOffice"]
       },
       "QrCodeData": {
         "type": "object",
