@@ -18,6 +18,46 @@ wasting time on it or getting confused by it. I don't want to deal with having
 a local vendored package, and I don't want to figure out configuration options
 or post-generation steps to convert it into a regular module.
 
+Quick Patch
+------------------------------------------------------------------------------
+
+After fixing something in `schema.json`:
+
+```shell
+rm -rf ./.ruff_cache ./humanitix_client ./.gitignore ./pyproject.toml ./README.md \
+&& uvx --from openapi-python-client openapi-python-client generate \
+    --path ./schema.json \
+    --config ./openapi-python-client.yaml \
+    --output-path . \
+    --overwrite \
+&& git checkout README.md .gitignore pyproject.toml \
+&& uv run --no-project python <<'EOF'
+import re
+v_re = r'version = "([\d.]+)"'
+
+with open('pyproject.toml', 'r') as f:
+    content = f.read()
+
+def get_version(content):
+    return re.search(v_re, content)[1]
+
+def bump_version(match):
+    version = match.group(1)
+    parts = version.split('.')
+    parts[-1] = str(int(parts[-1]) + 1)
+    return f'version = "{".".join(parts)}"'
+
+v_from = get_version(content)
+content = re.sub(v_re, bump_version, content)
+v_to = get_version(content)
+
+with open('pyproject.toml', 'w') as f:
+    f.write(content)
+
+print(f"Version bumped {v_from} -> {v_to} in pyproject.toml")
+EOF
+```
+
 Generation
 ------------------------------------------------------------------------------
 
