@@ -28,6 +28,8 @@ You need to have [uv][] available. If you're using `nix`, you can run
 
 [uv]: https://docs.astral.sh/uv/
 
+### Clean ###
+
 Probably want to remove the existing files first:
 
 ```shell
@@ -39,15 +41,27 @@ rm -rf \
     ./README.md 
 ```
 
-Then generate new ones:
+Initially, I used the schema from
+<https://api.humanitix.com/v1/documentation/json>, but it has some errors that
+needed to be fixed, so it got pulled down locally with
+
+```shell
+curl -o schema.json https://api.humanitix.com/v1/documentation/json
+```
+
+That file then has edits applied to it.
+
+### Generate ###
 
 ```shell
 uvx --from openapi-python-client openapi-python-client generate \
-    --url https://api.humanitix.com/v1/documentation/json \
+    --path ./schema.json \
     --config ./openapi-python-client.yaml \
     --output-path . \
     --overwrite
 ```
+
+### Preserving Edits ###
 
 After that, I edited the two code blocks at the start of `README.md` to
 construct the client correctly:
@@ -70,6 +84,21 @@ client = AuthenticatedClient(
     prefix="",
 )
 ```
+
+If you're updating the generation though you can just discard the edits to
+`README.md` after generating to achieve the same effect. You'll want to discard
+edits to `.gitignore` as well to preserve changes:
+
+```shell
+git checkout README.md .gitignore
+```
+
+### Bumping Version ###
+
+We're adding an additional 4th version segment to track patches, for example
+`1.18.0.1` as a patch to schema `1.18.0`.
+
+Edit the `version` in `pyproject.toml` and commit it.
 
 Publishing
 ------------------------------------------------------------------------------
