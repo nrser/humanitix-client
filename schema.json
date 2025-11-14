@@ -1718,7 +1718,7 @@
       },
       "AdditionalFields": {
         "type": "object",
-        "required": ["questionId", "value"],
+        "required": ["questionId"],
         "properties": {
           "questionId": { "$ref": "#/components/schemas/AdditionalQuestionId" },
           "value": { "type": "string", "example": "Gluten Free" },
