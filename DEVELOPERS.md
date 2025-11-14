@@ -58,6 +58,16 @@ print(f"Version bumped {v_from} -> {v_to} in pyproject.toml")
 EOF
 ```
 
+Make sure that looks ok, commit everything, then:
+
+```shell
+tag="v$(uvx --from poetry poetry version --short)" \
+&& git tag "$tag" \
+&& git push origin "$tag" \
+&& uvx --from poetry poetry build \
+&& uvx --from poetry poetry publish -u __token__ -p "$PYPI_TOKEN"
+```
+
 Generation
 ------------------------------------------------------------------------------
 
