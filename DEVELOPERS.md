@@ -67,7 +67,7 @@ tag="v$(uvx --from poetry poetry version --short)" \
 && uvx --from poetry poetry build \
 && uvx --from poetry poetry publish \
     -u __token__ \
-    -p "$(op item get "PyPI" --fields "api token")"
+    -p "$(op item get "PyPI" --reveal --fields "api token")"
 ```
 
 Generation
@@ -190,12 +190,12 @@ at
 
 I need 1Password 8 for the app/CLI integration to work.
 
-Now this should work:
+Now this works:
 
 ```shell
 uvx --from poetry poetry publish \
     -u __token__ \
-    -p "$(op item get "PyPI" --fields "api token")"
+    -p "$(op item get "PyPI" --reveal --fields "api token")"
 ```
 
 ### Publish ###
