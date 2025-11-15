@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "humanitix-client"
-version = "1.18.0.2"
+version = "1.18.0.3"
 description = "A client library for accessing Humanitix Public API"
 authors = []
 readme = "README.md"
 packages = [
     { include = "humanitix_client" },
 ]
-include = ["humanitix_client/py.typed"]
+include = ["humanitix_client/py.typed", "schema.json"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
