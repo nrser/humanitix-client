@@ -65,7 +65,9 @@ tag="v$(uvx --from poetry poetry version --short)" \
 && git tag "$tag" \
 && git push origin "$tag" \
 && uvx --from poetry poetry build \
-&& uvx --from poetry poetry publish -u __token__ -p "$PYPI_TOKEN"
+&& uvx --from poetry poetry publish \
+    -u __token__ \
+    -p "$(op item get "PyPI" --fields "api token")"
 ```
 
 Generation
@@ -160,13 +162,43 @@ using [poetry][] through [uv][] to build and publish the package.
 [openapi-python-client]: https://github.com/openapi-generators/openapi-python-client
 [poetry]: https://python-poetry.org/
 
-Build:
+### Build ###
 
 ```shell
 uvx --from poetry poetry build
 ```
 
-Publish:
+### PyPI Token ###
+
+To publish the package to [PyPI][] (at least, how I'm doing it) you'll need to
+make the authentication token available in the shell as `$PYPI_TOKEN`.
+
+#### 1Password CLI ####
+
+I'm storing my token in [1Password][], so I'm going to use the [1Password CLI][]
+via the [_1password-cli Nix package][] to fetch it out on demand, with the usual
+on-demand biometric authorization (macOS fingerprint reader).
+
+[PyPI]: https://pypi.org/
+[1Password CLI]: https://developer.1password.com/docs/cli/get-started/
+[_1password-cli Nix package]: https://wiki.nixos.org/wiki/1Password
+
+After installing the [_1password-cli Nix package][], followed the instructions
+at
+
+<https://developer.1password.com/docs/cli/app-integration/>
+
+I need 1Password 8 for the app/CLI integration to work.
+
+Now this should work:
+
+```shell
+uvx --from poetry poetry publish \
+    -u __token__ \
+    -p "$(op item get "PyPI" --fields "api token")"
+```
+
+### Publish ###
 
 ```shell
 export PYPI_TOKEN=...  # pypi-XXXX
