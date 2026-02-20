@@ -21,17 +21,17 @@ or post-generation steps to convert it into a regular module.
 Quick Patch
 ------------------------------------------------------------------------------
 
-After fixing something in `schema.json`:
+After fixing something in `schema.yaml`:
 
 ```shell
 rm -rf ./.ruff_cache ./humanitix_client ./.gitignore ./pyproject.toml ./README.md \
-&& git checkout humanitix_client/schema.json \
+&& git checkout humanitix_client/schema.yaml \
 && uvx --from openapi-python-client openapi-python-client generate \
-    --path ./humanitix_client/schema.json \
+    --path ./humanitix_client/schema.yaml \
     --config ./openapi-python-client.yaml \
     --output-path . \
     --overwrite \
-&& git checkout README.md .gitignore pyproject.toml humanitix_client/schema.json \
+&& git checkout README.md .gitignore pyproject.toml humanitix_client/schema.yaml \
 && uv run --no-project python <<'EOF'
 import re
 v_re = r'version = "([\d.]+)"'
@@ -99,21 +99,21 @@ Initially, I used the schema from
 needed to be fixed, so it got pulled down locally with
 
 ```shell
-curl -o ./humanitix_client/schema.json https://api.humanitix.com/v1/documentation/json
+curl -o ./humanitix_client/schema.yaml https://api.humanitix.com/v1/documentation/json
 ```
 
 That file then has edits applied to it. In the case up an update it just got 
 `rm`, so we need to restore it from `git`:
 
 ```shell
-git checkout humanitix_client/schema.json
+git checkout humanitix_client/schema.yaml
 ```
 
 ### Generate ###
 
 ```shell
 uvx --from openapi-python-client openapi-python-client generate \
-    --path ./humanitix_client/schema.json \
+    --path ./humanitix_client/schema.yaml \
     --config ./openapi-python-client.yaml \
     --output-path . \
     --overwrite
@@ -148,7 +148,7 @@ If you're updating the generation though you can just discard the edits to
 edits to `.gitignore` as well to preserve changes:
 
 ```shell
-git checkout README.md .gitignore pyproject.toml humanitix_client/schema.json
+git checkout README.md .gitignore pyproject.toml humanitix_client/schema.yaml
 ```
 
 ### Bumping Version ###

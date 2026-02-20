@@ -44,13 +44,13 @@ T = TypeVar("T", bound="CreateEventRequest")
 class CreateEventRequest:
     """
     Attributes:
+        name (str):  Example: Lord of the Rings.
+        timezone (str):  Example: Pacific/Auckland.
         dates (list[CreateDateRange]):
-        name (str | Unset):  Example: Lord of the Rings.
         description (str | Unset):  Example: A quest to destroy a powerful ring and defeat a dark lord.
-        timezone (str | Unset):  Example: Pacific/Auckland.
         event_location (CreateAddressEventLocation | CreateCustomEventLocation | CreateOnlineEventLocation |
             CreateToBeAnnouncedEventLocation | Unset):
-        keywords (list[str] | Unset):
+        keywords (list[str] | Unset):  Example: ['lord', 'of', 'the', 'rings'].
         classification (CategoryAutoBoatAndAir | CategoryBusinessAndProfessional | CategoryCharityAndCauses |
             CategoryCommunityAndCulture | CategoryFamilyAndEducation | CategoryFashionAndBeauty |
             CategoryFilmMediaAndEntertainment | CategoryFoodAndDrink | CategoryGovernmentAndPolitics |
@@ -60,10 +60,10 @@ class CreateEventRequest:
             | Unset):
     """
 
+    name: str
+    timezone: str
     dates: list[CreateDateRange]
-    name: str | Unset = UNSET
     description: str | Unset = UNSET
-    timezone: str | Unset = UNSET
     event_location: (
         CreateAddressEventLocation
         | CreateCustomEventLocation
@@ -123,16 +123,16 @@ class CreateEventRequest:
         from ..models.create_custom_event_location import CreateCustomEventLocation
         from ..models.create_online_event_location import CreateOnlineEventLocation
 
+        name = self.name
+
+        timezone = self.timezone
+
         dates = []
         for dates_item_data in self.dates:
             dates_item = dates_item_data.to_dict()
             dates.append(dates_item)
 
-        name = self.name
-
         description = self.description
-
-        timezone = self.timezone
 
         event_location: dict[str, Any] | Unset
         if isinstance(self.event_location, Unset):
@@ -200,15 +200,13 @@ class CreateEventRequest:
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
+                "name": name,
+                "timezone": timezone,
                 "dates": dates,
             }
         )
-        if name is not UNSET:
-            field_dict["name"] = name
         if description is not UNSET:
             field_dict["description"] = description
-        if timezone is not UNSET:
-            field_dict["timezone"] = timezone
         if event_location is not UNSET:
             field_dict["eventLocation"] = event_location
         if keywords is not UNSET:
@@ -248,6 +246,10 @@ class CreateEventRequest:
         from ..models.create_to_be_announced_event_location import CreateToBeAnnouncedEventLocation
 
         d = dict(src_dict)
+        name = d.pop("name")
+
+        timezone = d.pop("timezone")
+
         dates = []
         _dates = d.pop("dates")
         for dates_item_data in _dates:
@@ -255,11 +257,7 @@ class CreateEventRequest:
 
             dates.append(dates_item)
 
-        name = d.pop("name", UNSET)
-
         description = d.pop("description", UNSET)
-
-        timezone = d.pop("timezone", UNSET)
 
         def _parse_event_location(
             data: object,
@@ -503,10 +501,10 @@ class CreateEventRequest:
         classification = _parse_classification(d.pop("classification", UNSET))
 
         create_event_request = cls(
-            dates=dates,
             name=name,
-            description=description,
             timezone=timezone,
+            dates=dates,
+            description=description,
             event_location=event_location,
             keywords=keywords,
             classification=classification,

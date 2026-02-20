@@ -48,7 +48,7 @@ class SharedEventRequestForCreateAndWrite:
         timezone (str | Unset):  Example: Pacific/Auckland.
         event_location (CreateAddressEventLocation | CreateCustomEventLocation | CreateOnlineEventLocation |
             CreateToBeAnnouncedEventLocation | Unset):
-        keywords (list[str] | Unset):
+        keywords (list[str] | Unset):  Example: ['lord', 'of', 'the', 'rings'].
         classification (CategoryAutoBoatAndAir | CategoryBusinessAndProfessional | CategoryCharityAndCauses |
             CategoryCommunityAndCulture | CategoryFamilyAndEducation | CategoryFashionAndBeauty |
             CategoryFilmMediaAndEntertainment | CategoryFoodAndDrink | CategoryGovernmentAndPolitics |

@@ -1,5 +1,6 @@
 from http import HTTPStatus
 from typing import Any
+from urllib.parse import quote
 
 import httpx
 
@@ -16,6 +17,7 @@ def _get_kwargs(
     *,
     event_date_id: str,
 ) -> dict[str, Any]:
+
     params: dict[str, Any] = {}
 
     params["eventDateId"] = event_date_id
@@ -24,7 +26,9 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": f"/v1/events/{event_id}/check-in-count",
+        "url": "/v1/events/{event_id}/check-in-count".format(
+            event_id=quote(str(event_id), safe=""),
+        ),
         "params": params,
     }
 

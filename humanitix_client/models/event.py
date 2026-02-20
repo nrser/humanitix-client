@@ -58,7 +58,7 @@ class Event:
         user_id (str):  Example: nEOqx8s9UueyRu48789C0sY9set1.
         currency (Currency):
         name (str):  Example: Hobbit Dance Off.
-        description (str):  Example: Where hobbits from all across the shire come to show off their movies!.
+        description (str):  Example: Where hobbits from all across the shire come to show off their moves!.
         slug (str):  Example: hobbit-dance-off.
         public (bool):
         published (bool):
@@ -69,6 +69,7 @@ class Event:
         created_at (datetime.datetime):  Example: 2021-02-01T23:26:13.485Z.
         updated_at (datetime.datetime):  Example: 2021-02-01T23:26:13.485Z.
         organiser_id (str | Unset):  Example: 5ac597aed8fe7c0c0f212e27.
+        sharing_description (str | Unset):  Example: Calling all hobbits! Come and show everyone your moves.
         url (str | Unset):  Example: https://events.humanitix.com/hobbit-dance-off.
         tag_ids (list[str] | Unset):
         category (str | Unset):  Example: community.
@@ -114,6 +115,7 @@ class Event:
     created_at: datetime.datetime
     updated_at: datetime.datetime
     organiser_id: str | Unset = UNSET
+    sharing_description: str | Unset = UNSET
     url: str | Unset = UNSET
     tag_ids: list[str] | Unset = UNSET
     category: str | Unset = UNSET
@@ -211,6 +213,8 @@ class Event:
         updated_at = self.updated_at.isoformat()
 
         organiser_id = self.organiser_id
+
+        sharing_description = self.sharing_description
 
         url = self.url
 
@@ -374,6 +378,8 @@ class Event:
         )
         if organiser_id is not UNSET:
             field_dict["organiserId"] = organiser_id
+        if sharing_description is not UNSET:
+            field_dict["sharingDescription"] = sharing_description
         if url is not UNSET:
             field_dict["url"] = url
         if tag_ids is not UNSET:
@@ -486,6 +492,8 @@ class Event:
         updated_at = isoparse(d.pop("updatedAt"))
 
         organiser_id = d.pop("organiserId", UNSET)
+
+        sharing_description = d.pop("sharingDescription", UNSET)
 
         url = d.pop("url", UNSET)
 
@@ -832,6 +840,7 @@ class Event:
             created_at=created_at,
             updated_at=updated_at,
             organiser_id=organiser_id,
+            sharing_description=sharing_description,
             url=url,
             tag_ids=tag_ids,
             category=category,

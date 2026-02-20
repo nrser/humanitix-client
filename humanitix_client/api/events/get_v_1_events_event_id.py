@@ -1,5 +1,6 @@
 from http import HTTPStatus
 from typing import Any
+from urllib.parse import quote
 
 import httpx
 
@@ -16,6 +17,7 @@ def _get_kwargs(
     *,
     override_location: str | Unset = UNSET,
 ) -> dict[str, Any]:
+
     params: dict[str, Any] = {}
 
     params["overrideLocation"] = override_location
@@ -24,7 +26,9 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": f"/v1/events/{event_id}",
+        "url": "/v1/events/{event_id}".format(
+            event_id=quote(str(event_id), safe=""),
+        ),
         "params": params,
     }
 

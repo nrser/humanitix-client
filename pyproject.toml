@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [
     { include = "humanitix_client" },
 ]
-include = ["humanitix_client/py.typed", "humanitix_client/schema.json"]
+include = ["humanitix_client/py.typed", "humanitix_client/schema.yaml"]
 
 [tool.poetry.dependencies]
 python = "^3.10"

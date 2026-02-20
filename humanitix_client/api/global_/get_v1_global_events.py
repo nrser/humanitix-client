@@ -25,6 +25,7 @@ def _get_kwargs(
     override_location: str | Unset = UNSET,
     with_artists_only: bool | Unset = UNSET,
 ) -> dict[str, Any]:
+
     params: dict[str, Any] = {}
 
     params["page"] = page

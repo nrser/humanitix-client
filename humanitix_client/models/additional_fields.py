@@ -20,12 +20,12 @@ class AdditionalFields:
     """
     Attributes:
         question_id (str):  Example: 5ac5c5e85aec29000ff064f4.
-        value (str | Unset):  Example: Gluten Free.
+        value (str):  Example: Gluten Free.
         details (AdditionalFieldsDetails | Unset):
     """
 
     question_id: str
-    value: str | Unset = UNSET
+    value: str
     details: AdditionalFieldsDetails | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -43,10 +43,9 @@ class AdditionalFields:
         field_dict.update(
             {
                 "questionId": question_id,
+                "value": value,
             }
         )
-        if value is not UNSET:
-            field_dict["value"] = value
         if details is not UNSET:
             field_dict["details"] = details
 
@@ -59,7 +58,7 @@ class AdditionalFields:
         d = dict(src_dict)
         question_id = d.pop("questionId")
 
-        value = d.pop("value", UNSET)
+        value = d.pop("value")
 
         _details = d.pop("details", UNSET)
         details: AdditionalFieldsDetails | Unset
