@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "humanitix-client"
-version = "1.18.0.4"
+version = "1.20.0.0"
 description = "A client library for accessing Humanitix Public API"
 authors = []
 readme = "README.md"
