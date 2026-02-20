@@ -21,18 +21,38 @@ or post-generation steps to convert it into a regular module.
 Quick Patch
 ------------------------------------------------------------------------------
 
-After fixing something in `schema.yaml`:
+1.  Make adjustments in `humanitix_client/schema.yaml` and **commit** your
+    changes. We're going to just wipe the whole `humanitix_client` directory
+    and restore that path, because it's much easier.
+    
+    You may be tempted to simply tweak something in a `.py` file, but then it
+    will get clobbered by the next regeneration.
+
+2.  Knock out the generated files:
+
+        rm -rf ./.ruff_cache ./humanitix_client ./.gitignore ./pyproject.toml ./README.md
+
+3.  Restore only `humanitix_client/schema.yaml`:
+
+        git checkout humanitix_client/schema.yaml
+
+4.  Generate:
+
+        uvx --from openapi-python-client openapi-python-client generate \
+            --path ./humanitix_client/schema.yaml \
+            --config ./openapi-python-client.yaml \
+            --output-path . \
+            --overwrite
+
+5.  Restore files that are generated but have local modifications:
+
+        git checkout README.md .gitignore pyproject.toml
+
+6.  Use this script to bump the sub-patch version (`x` in `M.m.p.x`) or just do
+    it by hand in `pyproject.toml`:
 
 ```shell
-rm -rf ./.ruff_cache ./humanitix_client ./.gitignore ./pyproject.toml ./README.md \
-&& git checkout humanitix_client/schema.yaml \
-&& uvx --from openapi-python-client openapi-python-client generate \
-    --path ./humanitix_client/schema.yaml \
-    --config ./openapi-python-client.yaml \
-    --output-path . \
-    --overwrite \
-&& git checkout README.md .gitignore pyproject.toml humanitix_client/schema.yaml \
-&& uv run --no-project python <<'EOF'
+uv run --no-project python <<'EOF'
 import re
 v_re = r'version = "([\d.]+)"'
 
@@ -59,7 +79,7 @@ print(f"Version bumped {v_from} -> {v_to} in pyproject.toml")
 EOF
 ```
 
-Make sure that looks ok, commit everything, then:
+7.  Make sure that looks ok, commit everything, then:
 
 ```shell
 tag="v$(uvx --from poetry poetry version --short)" \
@@ -71,92 +91,36 @@ tag="v$(uvx --from poetry poetry version --short)" \
     -p "$(op item get "PyPI" --reveal --fields "api token")"
 ```
 
-Generation
+Schema
 ------------------------------------------------------------------------------
 
-> All commands run from the repo root.
+Initially, we used a JSON schema from
 
-You need to have [uv][] available. If you're using `nix`, you can run
-`nix-shell` to drop into a shell with it available.
+https://api.humanitix.com/v1/documentation/json
 
-[uv]: https://docs.astral.sh/uv/
+but that's `404 Not Found` now (2026-02-20).
 
-### Clean ###
+Now we're using a YAML schema from https://humanitix.stoplight.io/, click the
+_Export_ drop-down in the upper right.
 
-Probably want to remove the existing files first:
-
-```shell
-rm -rf \
-    ./.ruff_cache \
-    ./humanitix_client \
-    ./.gitignore \
-    ./pyproject.toml \
-    ./README.md 
-```
-
-Initially, I used the schema from
-<https://api.humanitix.com/v1/documentation/json>, but it has some errors that
-needed to be fixed, so it got pulled down locally with
+Seem to be able to get it directly with:
 
 ```shell
-curl -o ./humanitix_client/schema.yaml https://api.humanitix.com/v1/documentation/json
+curl -o ./humanitix_client/schema.yaml https://stoplight.io/api/v1/projects/humanitix/humanitix-public-api/nodes/apps/public-api/src/docs/openapi.yaml
 ```
 
-That file then has edits applied to it. In the case up an update it just got 
-`rm`, so we need to restore it from `git`:
+> ❗❗ WARNING ❗❗
+> 
+> I've made some tweaks to the `schema.yaml` to fix response parsing crashes,
+> check out the `git` history of `humanitix_client/schema.yaml`.
+>
+> If you download a new version, you may need to re-apply those changes.
 
-```shell
-git checkout humanitix_client/schema.yaml
-```
+Versioning
+------------------------------------------------------------------------------
 
-### Generate ###
-
-```shell
-uvx --from openapi-python-client openapi-python-client generate \
-    --path ./humanitix_client/schema.yaml \
-    --config ./openapi-python-client.yaml \
-    --output-path . \
-    --overwrite
-```
-
-### Preserving Edits ###
-
-After that, I edited the two code blocks at the start of `README.md` to
-construct the client correctly:
-
-```python
-from humanitix_client import Client
-
-client = Client(base_url="https://api.humanitix.com/")
-```
-
-and:
-
-```python
-from humanitix_client import AuthenticatedClient
-
-client = AuthenticatedClient(
-    base_url="https://api.humanitix.com/",
-    token="SuperSecretToken",
-    auth_header_name="X-Api-Key",
-    prefix="",
-)
-```
-
-If you're updating the generation though you can just discard the edits to
-`README.md` after generating to achieve the same effect. You'll want to discard
-edits to `.gitignore` as well to preserve changes:
-
-```shell
-git checkout README.md .gitignore pyproject.toml humanitix_client/schema.yaml
-```
-
-### Bumping Version ###
-
-We're adding an additional 4th version segment to track patches, for example
-`1.18.0.1` as a patch to schema `1.18.0`.
-
-Edit the `version` in `pyproject.toml` and commit it.
+We've added an additional 4th version segment to track patches, for example
+`1.18.0.1` as a patch to schema `1.18.0`. 
 
 Publishing
 ------------------------------------------------------------------------------
