@@ -1499,7 +1499,6 @@ components:
       type: object
       required:
         - questionId
-        - value
       properties:
         questionId:
           $ref: '#/components/schemas/AdditionalQuestionId'
