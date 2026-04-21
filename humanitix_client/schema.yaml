@@ -2227,6 +2227,7 @@ components:
         category:
           type: string
           enum:
+            - hobbiesAndSpecialInterest
             - other
     EventClassification:
       type: object
