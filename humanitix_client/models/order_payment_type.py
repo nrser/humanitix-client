@@ -4,6 +4,7 @@ from enum import Enum
 class OrderPaymentType(str, Enum):
     BANKDEPOSIT = "bankDeposit"
     CASH = "cash"
+    CHEQUE = "cheque"
     COMPLIMENTARY = "complimentary"
     EFTPOS = "eftpos"
     NOPAYMENTNECESSARY = "noPaymentNecessary"
