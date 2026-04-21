@@ -820,6 +820,7 @@ components:
             - eftpos
             - payPal
             - noPaymentNecessary
+            - cheque
             - other
         paymentGateway:
           type: string
