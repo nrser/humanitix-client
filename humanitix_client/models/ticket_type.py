@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.hidden_options import HiddenOptions
     from ..models.ticket_type_price_options import TicketTypePriceOptions
     from ..models.ticket_type_price_range import TicketTypePriceRange
 
@@ -30,6 +31,7 @@ class TicketType:
         disabled (bool | Unset):
         deleted (bool | Unset):
         is_donation (bool | Unset):
+        hidden_options (HiddenOptions | Unset):
     """
 
     name: str
@@ -42,6 +44,7 @@ class TicketType:
     disabled: bool | Unset = UNSET
     deleted: bool | Unset = UNSET
     is_donation: bool | Unset = UNSET
+    hidden_options: HiddenOptions | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -69,6 +72,10 @@ class TicketType:
 
         is_donation = self.is_donation
 
+        hidden_options: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.hidden_options, Unset):
+            hidden_options = self.hidden_options.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -94,11 +101,14 @@ class TicketType:
             field_dict["deleted"] = deleted
         if is_donation is not UNSET:
             field_dict["isDonation"] = is_donation
+        if hidden_options is not UNSET:
+            field_dict["hiddenOptions"] = hidden_options
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.hidden_options import HiddenOptions
         from ..models.ticket_type_price_options import TicketTypePriceOptions
         from ..models.ticket_type_price_range import TicketTypePriceRange
 
@@ -133,6 +143,13 @@ class TicketType:
 
         is_donation = d.pop("isDonation", UNSET)
 
+        _hidden_options = d.pop("hiddenOptions", UNSET)
+        hidden_options: HiddenOptions | Unset
+        if isinstance(_hidden_options, Unset):
+            hidden_options = UNSET
+        else:
+            hidden_options = HiddenOptions.from_dict(_hidden_options)
+
         ticket_type = cls(
             name=name,
             field_id=field_id,
@@ -144,6 +161,7 @@ class TicketType:
             disabled=disabled,
             deleted=deleted,
             is_donation=is_donation,
+            hidden_options=hidden_options,
         )
 
         ticket_type.additional_properties = d

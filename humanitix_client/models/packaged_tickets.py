@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.hidden_options import HiddenOptions
     from ..models.packaged_tickets_tickets_item import PackagedTicketsTicketsItem
 
 
@@ -26,6 +27,7 @@ class PackagedTickets:
         description (str | Unset):  Example: Includes 2x Adult ticket and 2x Child ticket.
         disabled (bool | Unset):
         deleted (bool | Unset):
+        hidden_options (HiddenOptions | Unset):
         tickets (list[PackagedTicketsTicketsItem] | Unset):
     """
 
@@ -36,6 +38,7 @@ class PackagedTickets:
     description: str | Unset = UNSET
     disabled: bool | Unset = UNSET
     deleted: bool | Unset = UNSET
+    hidden_options: HiddenOptions | Unset = UNSET
     tickets: list[PackagedTicketsTicketsItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -53,6 +56,10 @@ class PackagedTickets:
         disabled = self.disabled
 
         deleted = self.deleted
+
+        hidden_options: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.hidden_options, Unset):
+            hidden_options = self.hidden_options.to_dict()
 
         tickets: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.tickets, Unset):
@@ -78,6 +85,8 @@ class PackagedTickets:
             field_dict["disabled"] = disabled
         if deleted is not UNSET:
             field_dict["deleted"] = deleted
+        if hidden_options is not UNSET:
+            field_dict["hiddenOptions"] = hidden_options
         if tickets is not UNSET:
             field_dict["tickets"] = tickets
 
@@ -85,6 +94,7 @@ class PackagedTickets:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.hidden_options import HiddenOptions
         from ..models.packaged_tickets_tickets_item import PackagedTicketsTicketsItem
 
         d = dict(src_dict)
@@ -101,6 +111,13 @@ class PackagedTickets:
         disabled = d.pop("disabled", UNSET)
 
         deleted = d.pop("deleted", UNSET)
+
+        _hidden_options = d.pop("hiddenOptions", UNSET)
+        hidden_options: HiddenOptions | Unset
+        if isinstance(_hidden_options, Unset):
+            hidden_options = UNSET
+        else:
+            hidden_options = HiddenOptions.from_dict(_hidden_options)
 
         _tickets = d.pop("tickets", UNSET)
         tickets: list[PackagedTicketsTicketsItem] | Unset = UNSET
@@ -119,6 +136,7 @@ class PackagedTickets:
             description=description,
             disabled=disabled,
             deleted=deleted,
+            hidden_options=hidden_options,
             tickets=tickets,
         )
 

@@ -108,6 +108,8 @@ from .get_v1_events_event_id_tickets_status import GetV1EventsEventIdTicketsStat
 from .get_v1_events_response_200 import GetV1EventsResponse200
 from .get_v1_global_events_response_200 import GetV1GlobalEventsResponse200
 from .get_v1_tags_response_200 import GetV1TagsResponse200
+from .hidden_options import HiddenOptions
+from .hidden_options_when import HiddenOptionsWhen
 from .image import Image
 from .internal_server_error import InternalServerError
 from .location import Location
@@ -256,6 +258,8 @@ __all__ = (
     "GetV1EventsResponse200",
     "GetV1GlobalEventsResponse200",
     "GetV1TagsResponse200",
+    "HiddenOptions",
+    "HiddenOptionsWhen",
     "Image",
     "InternalServerError",
     "Location",

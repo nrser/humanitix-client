@@ -17,13 +17,14 @@ class Artist:
     Attributes:
         origin (str): External system from which the artist information originates. Example: spotify.
         name (str): Name of the artist. Example: Gandalf.
-        external_id (str | Unset): Identifier used to reference the artist in the external system. Example:
-            4ZNG0WQPQ10ehIVkCnM5ku.
+        external_id (str | Unset): Spotify identifier for the artist @deprecated. Example: 4ZNG0WQPQ10ehIVkCnM5ku.
+        spotify_id (str | Unset): Spotify identifier for the artist. Example: 4ZNG0WQPQ10ehIVkCnM5ku.
     """
 
     origin: str
     name: str
     external_id: str | Unset = UNSET
+    spotify_id: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -32,6 +33,8 @@ class Artist:
         name = self.name
 
         external_id = self.external_id
+
+        spotify_id = self.spotify_id
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -43,6 +46,8 @@ class Artist:
         )
         if external_id is not UNSET:
             field_dict["externalId"] = external_id
+        if spotify_id is not UNSET:
+            field_dict["spotifyId"] = spotify_id
 
         return field_dict
 
@@ -55,10 +60,13 @@ class Artist:
 
         external_id = d.pop("externalId", UNSET)
 
+        spotify_id = d.pop("spotifyId", UNSET)
+
         artist = cls(
             origin=origin,
             name=name,
             external_id=external_id,
+            spotify_id=spotify_id,
         )
 
         artist.additional_properties = d
