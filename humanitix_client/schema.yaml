@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Humanitix Public API
   description: 'The Humanitix Public API for fetching event, order, ticket or tag information. Please note that in periods of low activity the first request you make may take a few seconds longer than normal.'
-  version: 1.20.0
+  version: 1.21.0
 servers:
   - url: 'https://api.humanitix.com/'
     description: Production endpoint
@@ -1547,6 +1547,8 @@ components:
           type: boolean
         deleted:
           type: boolean
+        hiddenOptions:
+          $ref: '#/components/schemas/HiddenOptions'
         tickets:
           type: array
           items:
@@ -2299,7 +2301,11 @@ components:
         externalId:
           type: string
           example: 4ZNG0WQPQ10ehIVkCnM5ku
-          description: Identifier used to reference the artist in the external system.
+          description: Spotify identifier for the artist @deprecated.
+        spotifyId:
+          type: string
+          example: 4ZNG0WQPQ10ehIVkCnM5ku
+          description: Spotify identifier for the artist.
     AccessibilityFeature:
       type: object
       properties:
@@ -2481,6 +2487,36 @@ components:
           type: boolean
         isDonation:
           type: boolean
+        hiddenOptions:
+          $ref: '#/components/schemas/HiddenOptions'
+    HiddenOptions:
+      type: object
+      properties:
+        hidden:
+          type: boolean
+          description: 'Whether hiding is enabled for this ticket type. When true, the `when` field determines the condition under which the ticket is actually hidden.'
+        when:
+          type: string
+          enum:
+            - always
+            - notOnSale
+            - customDate
+            - soldOut
+            - conditional
+          description: The condition under which the ticket type is hidden.
+        startDate:
+          description: Start date for custom date hiding (only applicable when `when` is `customDate`).
+          allOf:
+            - $ref: '#/components/schemas/Date'
+        endDate:
+          description: End date for custom date hiding (only applicable when `when` is `customDate`).
+          allOf:
+            - $ref: '#/components/schemas/Date'
+        ticketIds:
+          type: array
+          items:
+            type: string
+          description: Ticket type IDs that conditionally reveal this ticket type (only applicable when `when` is `conditional`).
     Pricing:
       type: object
       required:
